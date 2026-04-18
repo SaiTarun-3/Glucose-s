@@ -8,7 +8,10 @@ app = Flask(__name__)
 CORS(app)
 
 # Load the ML model and scaler
-model  = joblib.load("ml/model.pkl")
+import os
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+model = joblib.load(os.path.join(BASE_DIR, "ml", "model.pkl"))
+scaler = joblib.load(os.path.join(BASE_DIR, "ml", "scaler.pkl"))
 scaler = joblib.load("ml/scaler.pkl")
 
 # ── Diet plan data ────────────────────────────────

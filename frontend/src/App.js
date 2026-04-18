@@ -36,7 +36,7 @@ function App() {
     setLoading(true);
     await new Promise(res => setTimeout(res, 3000));
     try {
-      const response = await axios.post("http://127.0.0.1:5000/predict", {
+      const response = await axios.post("https://glucosense-backend.onrender.com/predict", {
         pregnancies:   parseFloat(form.pregnancies),
         glucose:       parseFloat(form.glucose),
         bloodpressure: parseFloat(form.bloodpressure),
