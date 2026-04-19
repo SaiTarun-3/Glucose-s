@@ -442,11 +442,11 @@ function BMICalculator({ onApply, value, onChange }) {
 
 const bmiStyles = {
   calcBtn:     { padding: "10px 12px", background: "#ebf4ff", border: "1px solid #bee3f8", borderRadius: "6px", fontSize: "11px", fontWeight: "700", color: "#2b6cb0", cursor: "pointer", whiteSpace: "nowrap", flexShrink: 0 },
-  popup:       { position: "absolute", top: "100%", left: 0, right: 0, marginTop: "8px", background: "#fff", borderRadius: "10px", border: "1px solid #e2e8f0", boxShadow: "0 4px 20px rgba(0,0,0,0.12)", padding: "18px 20px", zIndex: 100 },
+  popup:       { position: "absolute", top: "100%", left: 0, width: "100%", boxSizing: "border-box", marginTop: "8px", background: "#fff", borderRadius: "10px", border: "1px solid #e2e8f0", boxShadow: "0 4px 20px rgba(0,0,0,0.12)", padding: "18px 20px", zIndex: 100 },
   arrow:       { position: "absolute", top: "-8px", left: "60px", width: "14px", height: "14px", background: "#fff", borderLeft: "1px solid #e2e8f0", borderTop: "1px solid #e2e8f0", transform: "rotate(45deg)" },
   popupTitle:  { fontSize: "12px", fontWeight: "700", color: "#1a365d", marginBottom: "14px" },
   popupLabel:  { fontSize: "11px", fontWeight: "600", color: "#4a5568", marginBottom: "4px" },
-  popupInput:  { padding: "8px 10px", borderRadius: "6px", border: "1px solid #e2e8f0", fontSize: "13px", outline: "none", background: "#f7fafc" },
+  popupInput:  { padding: "8px 10px", borderRadius: "6px", border: "1px solid #e2e8f0", fontSize: "13px", outline: "none", background: "#f7fafc", width: "100%", boxSizing: "border-box" },
   resultBox:   { borderRadius: "8px", padding: "12px 14px", display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "10px" },
   resultLabel: { fontSize: "11px", color: "#2b6cb0", fontWeight: "600" },
   resultValue: { fontSize: "20px", fontWeight: "800", color: "#1a365d" },
