@@ -23,6 +23,7 @@ function App() {
   });
   const [result, setResult] = useState(null);
   const [loading, setLoading] = useState(false);
+  
 
   const handleChange = (e) => {
     const updated = { ...form, [e.target.name]: e.target.value };
@@ -215,7 +216,7 @@ function FormPage({ form, loading, onChange, onSubmit, onBack }) {
             <Field label="Blood Pressure (mm Hg)" name="bloodpressure" placeholder="e.g. 70" value={form.bloodpressure} onChange={onChange} />
             <Field label="Skin Thickness (mm)" name="skinthickness" placeholder="e.g. 20" value={form.skinthickness} onChange={onChange} />
             <Field label="Insulin (mu U/ml)" name="insulin" placeholder="e.g. 80" value={form.insulin} onChange={onChange} />
-            <Field label="BMI (kg/m2)" name="bmi" placeholder="e.g. 25.5" value={form.bmi} onChange={onChange} />
+            <BMICalculator onApply={(bmi) => onChange({ target: { name: "bmi", value: bmi } })} value={form.bmi} onChange={onChange} />
             <Field label="Diabetes Pedigree Function" name="dpf" placeholder="e.g. 0.5" value={form.dpf} onChange={onChange} />
           </div>
         </div>
@@ -331,6 +332,130 @@ function ResultPage({ result, getRiskLevel, onBack, onNew }) {
     </div>
   );
 }
+
+// ── BMI Calculator ────────────────────────────────
+function BMICalculator({ onApply, value, onChange }) {
+  const [open, setOpen] = React.useState(false);
+  const [height, setHeight] = React.useState("");
+  const [weight, setWeight] = React.useState("");
+
+  const bmi = height && weight
+    ? (parseFloat(weight) / Math.pow(parseFloat(height) / 100, 2)).toFixed(2)
+    : null;
+
+  const getCategory = (b) => {
+    if (b < 18.5) return { label: "Underweight", color: "#2b6cb0", bg: "#ebf4ff" };
+    if (b < 25)   return { label: "Normal",      color: "#276749", bg: "#E1F5EE" };
+    if (b < 30)   return { label: "Overweight",  color: "#633806", bg: "#FAEEDA" };
+    return              { label: "Obese",         color: "#712B13", bg: "#FAECE7" };
+  };
+
+  const cat = bmi ? getCategory(parseFloat(bmi)) : null;
+
+  return (
+    <div style={{ display: "flex", flexDirection: "column", position: "relative" }}>
+      <label style={s.label}>BMI (kg/m²)</label>
+      <div style={{ display: "flex", gap: "8px", alignItems: "center" }}>
+        <input
+          style={{ ...s.input, flex: 1 }}
+          type="number"
+          name="bmi"
+          placeholder="e.g. 25.5"
+          value={value}
+          onChange={onChange}
+        />
+        <button
+          style={bmiStyles.calcBtn}
+          onClick={() => setOpen(!open)}
+          type="button"
+        >
+          Calculate BMI
+        </button>
+      </div>
+
+      {open && (
+        <div style={bmiStyles.popup}>
+          <div style={bmiStyles.arrow} />
+          <div style={bmiStyles.popupTitle}>BMI Calculator</div>
+
+          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "10px", marginBottom: "14px" }}>
+            <div style={{ display: "flex", flexDirection: "column" }}>
+              <label style={bmiStyles.popupLabel}>Height (cm)</label>
+              <input
+                style={bmiStyles.popupInput}
+                type="number"
+                placeholder="e.g. 170"
+                value={height}
+                onChange={(e) => setHeight(e.target.value)}
+              />
+            </div>
+            <div style={{ display: "flex", flexDirection: "column" }}>
+              <label style={bmiStyles.popupLabel}>Weight (kg)</label>
+              <input
+                style={bmiStyles.popupInput}
+                type="number"
+                placeholder="e.g. 70"
+                value={weight}
+                onChange={(e) => setWeight(e.target.value)}
+              />
+            </div>
+          </div>
+
+          {bmi && (
+            <>
+              <div style={{ ...bmiStyles.resultBox, background: cat.bg }}>
+                <div>
+                  <div style={bmiStyles.resultLabel}>Your BMI</div>
+                  <div style={bmiStyles.resultValue}>{bmi}</div>
+                </div>
+                <div style={{ ...bmiStyles.catBadge, color: cat.color, background: "rgba(255,255,255,0.6)" }}>
+                  {cat.label}
+                </div>
+              </div>
+
+              <div style={bmiStyles.scaleWrap}>
+                <div style={{ ...bmiStyles.scaleBar, background: "#1D9E75", flex: 1.5 }} />
+                <div style={{ ...bmiStyles.scaleBar, background: "#EF9F27", flex: 1 }} />
+                <div style={{ ...bmiStyles.scaleBar, background: "#E24B4A", flex: 1 }} />
+              </div>
+              <div style={bmiStyles.scaleLabels}>
+                <span>Normal</span>
+                <span>Overweight</span>
+                <span>Obese</span>
+              </div>
+            </>
+          )}
+
+          <button
+            style={bmiStyles.applyBtn}
+            onClick={() => { onApply(bmi); setOpen(false); }}
+            type="button"
+            disabled={!bmi}
+          >
+            Apply BMI to Form
+          </button>
+        </div>
+      )}
+    </div>
+  );
+}
+
+const bmiStyles = {
+  calcBtn:     { padding: "10px 12px", background: "#ebf4ff", border: "1px solid #bee3f8", borderRadius: "6px", fontSize: "11px", fontWeight: "700", color: "#2b6cb0", cursor: "pointer", whiteSpace: "nowrap", flexShrink: 0 },
+  popup:       { position: "absolute", top: "100%", left: 0, right: 0, marginTop: "8px", background: "#fff", borderRadius: "10px", border: "1px solid #e2e8f0", boxShadow: "0 4px 20px rgba(0,0,0,0.12)", padding: "18px 20px", zIndex: 100 },
+  arrow:       { position: "absolute", top: "-8px", left: "60px", width: "14px", height: "14px", background: "#fff", borderLeft: "1px solid #e2e8f0", borderTop: "1px solid #e2e8f0", transform: "rotate(45deg)" },
+  popupTitle:  { fontSize: "12px", fontWeight: "700", color: "#1a365d", marginBottom: "14px" },
+  popupLabel:  { fontSize: "11px", fontWeight: "600", color: "#4a5568", marginBottom: "4px" },
+  popupInput:  { padding: "8px 10px", borderRadius: "6px", border: "1px solid #e2e8f0", fontSize: "13px", outline: "none", background: "#f7fafc" },
+  resultBox:   { borderRadius: "8px", padding: "12px 14px", display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "10px" },
+  resultLabel: { fontSize: "11px", color: "#2b6cb0", fontWeight: "600" },
+  resultValue: { fontSize: "20px", fontWeight: "800", color: "#1a365d" },
+  catBadge:    { fontSize: "11px", fontWeight: "600", padding: "2px 10px", borderRadius: "10px" },
+  scaleWrap:   { display: "flex", height: "6px", borderRadius: "4px", overflow: "hidden", marginBottom: "4px" },
+  scaleBar:    { height: "100%" },
+  scaleLabels: { display: "flex", justifyContent: "space-between", fontSize: "10px", color: "#718096", marginBottom: "12px" },
+  applyBtn:    { width: "100%", padding: "9px", background: "#2b6cb0", color: "#fff", border: "none", borderRadius: "6px", fontSize: "13px", fontWeight: "600", cursor: "pointer" },
+};
 
 // ── Reusable Field ────────────────────────────────
 function Field({ label, name, placeholder, value, onChange, type = "number" }) {
