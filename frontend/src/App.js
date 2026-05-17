@@ -116,7 +116,6 @@ function HomePage({ onStart }) {
     <div style={s.page}>
       <nav style={s.nav}>
         <span style={s.navBrand}>GlucoSense</span>
-       
       </nav>
       <div style={s.heroSection}>
         <div style={s.heroBadge}>Smart Healthcare Technology</div>
@@ -496,23 +495,32 @@ const s = {
   loadingDivider: { height: "1px", background: "linear-gradient(90deg,transparent,#1a3a6b,transparent)", margin: "0 0 24px" },
   loadingStatus:  { fontSize: "15px", fontWeight: "600", color: "#fff", marginBottom: "6px", animation: "fadeUp 0.5s ease forwards" },
   loadingSubstatus:{ fontSize: "11px", color: "#4a5568", letterSpacing: "0.5px", animation: "blink 2s ease-in-out infinite" },
-  formContainer:  { maxWidth: "720px", margin: "0 auto", padding: "32px 24px" },
+
+  // ✅ FIXED: added boxSizing and width
+  formContainer:  { maxWidth: "720px", margin: "0 auto", padding: "32px 24px", boxSizing: "border-box", width: "100%" },
+
   formHeader:     { marginBottom: "24px" },
   formTitle:      { fontSize: "24px", fontWeight: "700", color: "#1a365d" },
   formSubtitle:   { fontSize: "14px", color: "#718096", marginTop: "4px" },
-  section:        { background: "#fff", borderRadius: "10px", padding: "20px 24px", marginBottom: "16px", boxShadow: "0 1px 4px rgba(0,0,0,0.06)" },
+
+  // ✅ FIXED: added boxSizing
+  section:        { background: "#fff", borderRadius: "10px", padding: "20px 24px", marginBottom: "16px", boxShadow: "0 1px 4px rgba(0,0,0,0.06)", boxSizing: "border-box" },
+
   sectionLabel:   { fontSize: "11px", fontWeight: "700", color: "#2b6cb0", letterSpacing: "0.8px", textTransform: "uppercase", marginBottom: "16px" },
   grid2:          { display: "grid", gridTemplateColumns: "1fr 1fr", gap: "16px", marginBottom: "12px" },
   fieldGroup:     { display: "flex", flexDirection: "column" },
   label:          { fontSize: "12px", fontWeight: "600", color: "#4a5568", marginBottom: "6px" },
-  input:          { padding: "10px 12px", borderRadius: "6px", border: "1px solid #e2e8f0", fontSize: "14px", outline: "none", background: "#f7fafc" },
-  btn:            { width: "100%", padding: "14px", background: "#2b6cb0", color: "#fff", border: "none", borderRadius: "8px", fontSize: "15px", fontWeight: "600", cursor: "pointer", marginTop: "8px" },
-  btnDisabled:    { width: "100%", padding: "14px", background: "#a0aec0", color: "#fff", border: "none", borderRadius: "8px", fontSize: "15px", cursor: "not-allowed", marginTop: "8px" },
+
+  // ✅ FIXED: added width and boxSizing
+  input:          { padding: "10px 12px", borderRadius: "6px", border: "1px solid #e2e8f0", fontSize: "14px", outline: "none", background: "#f7fafc", width: "100%", boxSizing: "border-box" },
+
+  btn:            { width: "100%", padding: "14px", background: "#2b6cb0", color: "#fff", border: "none", borderRadius: "8px", fontSize: "15px", fontWeight: "600", cursor: "pointer", marginTop: "8px", boxSizing: "border-box" },
+  btnDisabled:    { width: "100%", padding: "14px", background: "#a0aec0", color: "#fff", border: "none", borderRadius: "8px", fontSize: "15px", cursor: "not-allowed", marginTop: "8px", boxSizing: "border-box" },
   disclaimer:     { fontSize: "11px", color: "#a0aec0", textAlign: "center", marginTop: "12px" },
-  reportHeader:   { background: "#1a365d", borderRadius: "10px", padding: "20px 24px", marginBottom: "16px" },
+  reportHeader:   { background: "#1a365d", borderRadius: "10px", padding: "20px 24px", marginBottom: "16px", boxSizing: "border-box" },
   reportTitle:    { color: "#fff", fontWeight: "700", fontSize: "18px" },
   reportMeta:     { color: "#90cdf4", fontSize: "13px", marginTop: "4px" },
-  resultCard:     { background: "#fff", borderRadius: "10px", padding: "24px", marginBottom: "16px", boxShadow: "0 1px 4px rgba(0,0,0,0.06)" },
+  resultCard:     { background: "#fff", borderRadius: "10px", padding: "24px", marginBottom: "16px", boxShadow: "0 1px 4px rgba(0,0,0,0.06)", boxSizing: "border-box" },
   resultTop:      { display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: "16px" },
   resultLabel:    { fontSize: "12px", color: "#718096", marginBottom: "4px" },
   resultValue:    { fontSize: "28px", fontWeight: "700" },
@@ -522,19 +530,20 @@ const s = {
   confValue:      { fontSize: "13px", fontWeight: "700" },
   progressBg:     { background: "#e2e8f0", borderRadius: "4px", height: "8px", overflow: "hidden" },
   progressFill:   { height: "100%", borderRadius: "4px", transition: "width 0.5s" },
-  tipsCard:       { background: "#fff", borderRadius: "10px", padding: "20px 24px", marginBottom: "16px", boxShadow: "0 1px 4px rgba(0,0,0,0.06)" },
+  tipsCard:       { background: "#fff", borderRadius: "10px", padding: "20px 24px", marginBottom: "16px", boxShadow: "0 1px 4px rgba(0,0,0,0.06)", boxSizing: "border-box" },
   tipsTitle:      { fontWeight: "700", color: "#1a365d", marginBottom: "14px", fontSize: "15px" },
   tipRow:         { display: "flex", alignItems: "flex-start", gap: "10px", marginBottom: "10px" },
   tipDot:         { width: "6px", height: "6px", borderRadius: "50%", background: "#2b6cb0", marginTop: "6px", flexShrink: 0 },
   tipText:        { fontSize: "13px", color: "#4a5568", lineHeight: "1.6" },
   dietHeader:     { fontWeight: "700", color: "#1a365d", fontSize: "16px", margin: "20px 0 12px" },
-  dayCard:        { background: "#fff", borderRadius: "10px", padding: "16px 20px", marginBottom: "12px", boxShadow: "0 1px 4px rgba(0,0,0,0.06)" },
+  dayCard:        { background: "#fff", borderRadius: "10px", padding: "16px 20px", marginBottom: "12px", boxShadow: "0 1px 4px rgba(0,0,0,0.06)", boxSizing: "border-box" },
   dayTitle:       { fontWeight: "700", color: "#1a365d", marginBottom: "12px", fontSize: "15px" },
   mealsGrid:      { display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: "12px", marginBottom: "10px" },
-  mealBox:        { background: "#f7fafc", borderRadius: "6px", padding: "10px 12px" },
+  mealBox:        { background: "#f7fafc", borderRadius: "6px", padding: "10px 12px", boxSizing: "border-box" },
   mealType:       { fontSize: "10px", fontWeight: "700", color: "#2b6cb0", textTransform: "uppercase", letterSpacing: "0.5px", marginBottom: "4px" },
   mealName:       { fontSize: "12px", color: "#2d3748", fontWeight: "500", lineHeight: "1.4" },
   mealCal:        { fontSize: "11px", color: "#718096", marginTop: "4px" },
   totalRow:       { fontSize: "12px", color: "#718096", borderTop: "1px solid #e2e8f0", paddingTop: "10px" },
 };
-export default App
+
+export default App;
